@@ -199,7 +199,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   <a
                     href={`mailto:${data.directEmail}`}
                     className="p-2 rounded-xl bg-slate-900 hover:bg-[#EA4335]/20 border border-slate-800 hover:border-[#EA4335]/60 transition-colors group"
-                    title="Send Direct Email: khanjayed600@gmail.com"
+                    title="Send Direct Email: jayedcyberfinix@gmail.com"
                   >
                     <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-[#EA4335] via-[#FBBC05] to-[#4285F4] p-[1px] group-hover:scale-110 transition-transform">
                       <div className="w-full h-full bg-slate-950 rounded-[5px] flex items-center justify-center">
@@ -209,11 +209,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </a>
 
                   <a
-                    href="https://github.com/khanjayed600"
+                    href="https://github.com/users/jayedcyberfinix-blip/projects/1/views/1"
                     target="_blank"
                     rel="noreferrer"
                     className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-600 transition-colors group"
-                    title="GitHub: khanjayed600"
+                    title="GitHub Projects: jayedcyberfinix-blip"
                   >
                     <div className="w-6 h-6 rounded-md bg-[#24292e] flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                       <Github className="w-3.5 h-3.5 fill-white text-white" />

@@ -229,7 +229,7 @@ export const defaultPortfolioData: PortfolioData = {
         tools: ['React', 'JavaScript', 'Tailwind CSS', 'Chart Analytics', 'Local Persistence', 'Netlify'],
         impact: 'Provides real-time cashflow visibility, spending threshold alerts, and instant budget calculations.',
         liveDemoUrl: 'https://fancy-bienenstitch-fc0447.netlify.app/',
-        githubUrl: 'https://github.com/khanjayed600',
+        githubUrl: 'https://github.com/users/jayedcyberfinix-blip/projects/1/views/1',
         image: '/expense-tracker.jpg',
       },
       {
@@ -242,7 +242,7 @@ export const defaultPortfolioData: PortfolioData = {
         tools: ['React', 'TypeScript', 'Tailwind CSS', 'Financial Ledger', 'Auth & Security', 'Netlify'],
         impact: 'Eliminated manual bookkeeping errors with 100% transparent audit trails and automated collection summaries.',
         liveDemoUrl: 'https://aesthetic-cat-9f1b44.netlify.app/',
-        githubUrl: 'https://github.com/khanjayed600',
+        githubUrl: 'https://github.com/users/jayedcyberfinix-blip/projects/1/views/1',
         image: '/batch-fund.jpg',
       },
     ],
@@ -382,9 +382,9 @@ export const defaultPortfolioData: PortfolioData = {
         placeholder: 'Tell me about your project, website security needs, or collaboration ideas...',
       },
     ],
-    directEmail: 'khanjayed600@gmail.com',
+    directEmail: 'jayedcyberfinix@gmail.com',
     uxLayoutNote:
-      'Direct inquiry form and contact channels connecting directly to MD Jayed at khanjayed600@gmail.com with Bangladesh location info.',
+      'Direct inquiry form and contact channels connecting directly to MD Jayed at jayedcyberfinix@gmail.com with Bangladesh location info.',
   },
   conversionStrategy: {
     targetPersona: 'Startup founders, web developers, Islamic University peers, security enthusiasts, and tech companies seeking verified talent.',
@@ -392,7 +392,7 @@ export const defaultPortfolioData: PortfolioData = {
     uxDesignHighlights: [
       'Authentic profile emphasizing CSE at Islamic University, Bangladesh (IU).',
       'Offensive & defensive cybersecurity credentials and real ethical hacking project demonstrations.',
-      'Direct email connection to khanjayed600@gmail.com with verified response SLA.',
+      'Direct email connection to jayedcyberfinix@gmail.com with verified response SLA.',
     ],
   },
 };

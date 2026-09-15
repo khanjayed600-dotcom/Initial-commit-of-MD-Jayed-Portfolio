@@ -76,7 +76,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     const resumeText = `MD JAYED - RESUME & CV
 ========================
 Name: MD Jayed
-Email: khanjayed600@gmail.com
+Email: jayedcyberfinix@gmail.com
 Location: Kushtia, Bangladesh
 University: Islamic University, Bangladesh (IU)
 Department: Computer Science & Engineering (CSE)
@@ -98,10 +98,10 @@ FEATURED PROJECTS:
 2. Batch Fund Management System (Live on Netlify: https://aesthetic-cat-9f1b44.netlify.app/)
 
 CONTACT:
-GitHub: https://github.com/khanjayed600
+GitHub: https://github.com/users/jayedcyberfinix-blip/projects/1/views/1
 LinkedIn: https://www.linkedin.com/in/jayed-molla-197a6b426?utm_source=share_via&utm_content=profile&utm_medium=member_android
 Facebook: https://www.facebook.com/share/18Cv9YMVZm/
-Email: khanjayed600@gmail.com
+Email: jayedcyberfinix@gmail.com
 `;
     const blob = new Blob([resumeText], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -347,9 +347,9 @@ Email: khanjayed600@gmail.com
 
                 {/* Gmail Original Brand Badge */}
                 <a
-                  href="mailto:khanjayed600@gmail.com"
+                  href="mailto:jayedcyberfinix@gmail.com"
                   className="flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl bg-slate-950/90 hover:bg-[#EA4335]/15 border border-slate-800 hover:border-[#EA4335]/60 transition-all duration-200 group shadow-xs"
-                  title="Gmail: khanjayed600@gmail.com"
+                  title="Gmail: jayedcyberfinix@gmail.com"
                 >
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#EA4335] via-[#FBBC05] to-[#4285F4] p-[1.5px] shadow-md shadow-[#EA4335]/30 group-hover:scale-110 transition-transform">
                     <div className="w-full h-full bg-slate-950 rounded-[6px] flex items-center justify-center">
@@ -361,11 +361,11 @@ Email: khanjayed600@gmail.com
 
                 {/* GitHub Original Brand Badge */}
                 <a
-                  href="https://github.com/khanjayed600"
+                  href="https://github.com/users/jayedcyberfinix-blip/projects/1/views/1"
                   target="_blank"
                   rel="noreferrer"
                   className="flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl bg-slate-950/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-600 transition-all duration-200 group shadow-xs"
-                  title="GitHub: khanjayed600"
+                  title="GitHub Projects: jayedcyberfinix-blip"
                 >
                   <div className="w-7 h-7 rounded-lg bg-[#24292e] border border-slate-700 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
                     <Github className="w-4 h-4 fill-white text-white" />

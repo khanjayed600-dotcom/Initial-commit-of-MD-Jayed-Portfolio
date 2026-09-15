@@ -37,7 +37,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/khanjayed600/portfolio.git
+git clone https://github.com/jayedcyberfinix-blip/portfolio.git
 cd portfolio
 
 # 2. Install dependencies
@@ -63,7 +63,7 @@ This project is pre-configured with **GitHub Actions** and **relative path resol
    git add .
    git commit -m "Initial commit of MD Jayed Portfolio"
    git branch -M main
-   git remote add origin https://github.com/khanjayed600/<your-repo-name>.git
+   git remote add origin https://github.com/jayedcyberfinix-blip/<your-repo-name>.git
    git push -u origin main
    ```
 
@@ -73,7 +73,7 @@ This project is pre-configured with **GitHub Actions** and **relative path resol
    - Under **Build and deployment** > **Source**, select **GitHub Actions**.
    - That's it! GitHub Actions will automatically run `.github/workflows/deploy.yml`, build the site, and publish it at:
      ```
-     https://khanjayed600.github.io/<your-repo-name>/
+     https://jayedcyberfinix-blip.github.io/<your-repo-name>/
      ```
 
 ### Option B: Deploy via `npm run deploy` (`gh-pages`)
@@ -103,10 +103,10 @@ Then in **Settings** > **Pages**, choose **Deploy from a branch** and select the
 
 ## 📬 Connect with MD Jayed
 
-- **GitHub:** [@khanjayed600](https://github.com/khanjayed600)
+- **GitHub:** [jayedcyberfinix-blip](https://github.com/users/jayedcyberfinix-blip/projects/1/views/1)
 - **LinkedIn:** [MD Jayed Molla](https://www.linkedin.com/in/jayed-molla-197a6b426)
 - **Facebook:** [Jayed Molla](https://www.facebook.com/share/18Cv9YMVZm/)
-- **Email:** [khanjayed600@gmail.com](mailto:khanjayed600@gmail.com)
+- **Email:** [jayedcyberfinix@gmail.com](mailto:jayedcyberfinix@gmail.com)
 
 ---
 
