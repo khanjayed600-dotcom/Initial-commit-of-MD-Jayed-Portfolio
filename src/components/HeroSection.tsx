@@ -21,6 +21,7 @@ import {
 import { HeroSectionData, ThemePreset } from '../types';
 import { themes } from '../utils/theme';
 import { useToast } from './Toast';
+import defaultJayedPhoto from '../assets/jayed.jpg';
 
 interface HeroSectionProps {
   data: HeroSectionData;
@@ -42,9 +43,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [showUxNote, setShowUxNote] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
-  const defaultPhoto = `${import.meta.env.BASE_URL || './'}jayed.jpg`;
   const [photoUrl, setPhotoUrl] = useState<string>(() => {
-    return localStorage.getItem('jayed_photo_url') || defaultPhoto;
+    const saved = localStorage.getItem('jayed_photo_url');
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+      return saved;
+    }
+    return defaultJayedPhoto;
   });
 
   const themeConfig = themes[theme];
@@ -52,8 +56,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   useEffect(() => {
     const saved = localStorage.getItem('jayed_photo_url');
-    if (saved) {
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
       setPhotoUrl(saved);
+    } else {
+      setPhotoUrl(defaultJayedPhoto);
     }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
@@ -245,8 +251,8 @@ Email: jayedcyberfinix@gmail.com
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       const target = e.currentTarget;
-                      if (!target.src.endsWith('/jayed.jpg') && !target.src.endsWith('./jayed.jpg')) {
-                        target.src = './jayed.jpg';
+                      if (target.src !== defaultJayedPhoto) {
+                        target.src = defaultJayedPhoto;
                       }
                     }}
                     className="w-full h-full object-cover object-top group-hover:scale-102 transition-transform duration-500"

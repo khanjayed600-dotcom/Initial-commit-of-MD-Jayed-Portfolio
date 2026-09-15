@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, Terminal, Code2, Shield, GraduationCap, Menu, X, ChevronRight, Layers, FileDown, Wand2, Download } from 'lucide-react';
 import { ThemePreset, ViewMode } from '../types';
 import { themes } from '../utils/theme';
+import defaultJayedPhoto from '../assets/jayed.jpg';
 
 interface NavbarProps {
   name: string;
@@ -26,7 +27,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [photoUrl, setPhotoUrl] = useState<string>('/jayed.jpg');
+  const [photoUrl, setPhotoUrl] = useState<string>(() => {
+    const saved = localStorage.getItem('jayed_photo_url');
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+      return saved;
+    }
+    return defaultJayedPhoto;
+  });
   const themeConfig = themes[currentTheme];
 
   useEffect(() => {
@@ -39,10 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     const saved = localStorage.getItem('jayed_photo_url');
-    if (saved) {
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
       setPhotoUrl(saved);
     } else {
-      setPhotoUrl('/jayed.jpg');
+      setPhotoUrl(defaultJayedPhoto);
     }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
@@ -88,6 +95,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   src={photoUrl}
                   alt="MD Jayed"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== defaultJayedPhoto) {
+                      target.src = defaultJayedPhoto;
+                    }
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>

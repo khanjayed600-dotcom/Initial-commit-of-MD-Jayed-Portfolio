@@ -21,6 +21,7 @@ import {
 import { AboutSectionData, ThemePreset, EducationItem } from '../types';
 import { themes } from '../utils/theme';
 import { useToast } from './Toast';
+import defaultJayedPhoto from '../assets/jayed.jpg';
 
 interface AboutSectionProps {
   data: AboutSectionData;
@@ -31,16 +32,22 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ data, theme }) => {
   const [showUxNote, setShowUxNote] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'bio' | 'education' | 'clubs' | 'principles'>('bio');
-  const [photoUrl, setPhotoUrl] = useState<string>('/jayed.jpg');
+  const [photoUrl, setPhotoUrl] = useState<string>(() => {
+    const saved = localStorage.getItem('jayed_photo_url');
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+      return saved;
+    }
+    return defaultJayedPhoto;
+  });
   const themeConfig = themes[theme];
   const { showToast } = useToast();
 
   useEffect(() => {
     const saved = localStorage.getItem('jayed_photo_url');
-    if (saved) {
+    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
       setPhotoUrl(saved);
     } else {
-      setPhotoUrl('/jayed.jpg');
+      setPhotoUrl(defaultJayedPhoto);
     }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
@@ -474,6 +481,12 @@ ${data.stats
                   src={photoUrl}
                   alt="MD Jayed"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== defaultJayedPhoto) {
+                      target.src = defaultJayedPhoto;
+                    }
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
