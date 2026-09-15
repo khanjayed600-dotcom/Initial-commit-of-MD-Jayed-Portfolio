@@ -28,9 +28,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string>(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      return saved;
+    try {
+      const saved = localStorage.getItem('jayed_photo_url');
+      if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+        return saved;
+      }
+    } catch {
+      // ignore
     }
     return defaultJayedPhoto;
   });
@@ -45,12 +49,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      setPhotoUrl(saved);
-    } else {
-      setPhotoUrl(defaultJayedPhoto);
-    }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
         setPhotoUrl(e.detail);

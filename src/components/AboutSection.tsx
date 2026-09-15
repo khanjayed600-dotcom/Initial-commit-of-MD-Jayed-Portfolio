@@ -33,9 +33,13 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ data, theme }) => {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'bio' | 'education' | 'clubs' | 'principles'>('bio');
   const [photoUrl, setPhotoUrl] = useState<string>(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      return saved;
+    try {
+      const saved = localStorage.getItem('jayed_photo_url');
+      if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+        return saved;
+      }
+    } catch {
+      // ignore
     }
     return defaultJayedPhoto;
   });
@@ -43,12 +47,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ data, theme }) => {
   const { showToast } = useToast();
 
   useEffect(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      setPhotoUrl(saved);
-    } else {
-      setPhotoUrl(defaultJayedPhoto);
-    }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
         setPhotoUrl(e.detail);

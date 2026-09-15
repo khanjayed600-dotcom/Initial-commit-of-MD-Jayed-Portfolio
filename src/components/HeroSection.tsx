@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowRight,
   Sparkles,
@@ -17,6 +17,9 @@ import {
   Linkedin,
   Mail,
   Github,
+  Camera,
+  Upload,
+  RotateCcw,
 } from 'lucide-react';
 import { HeroSectionData, ThemePreset } from '../types';
 import { themes } from '../utils/theme';
@@ -44,23 +47,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [copied, setCopied] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string>(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      return saved;
+    try {
+      const saved = localStorage.getItem('jayed_photo_url');
+      if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
+        return saved;
+      }
+    } catch {
+      // ignore
     }
     return defaultJayedPhoto;
   });
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const themeConfig = themes[theme];
   const { showToast } = useToast();
 
   useEffect(() => {
-    const saved = localStorage.getItem('jayed_photo_url');
-    if (saved && (saved.startsWith('data:') || saved.startsWith('blob:') || saved.startsWith('http'))) {
-      setPhotoUrl(saved);
-    } else {
-      setPhotoUrl(defaultJayedPhoto);
-    }
     const handlePhotoChanged = (e: any) => {
       if (e.detail) {
         setPhotoUrl(e.detail);
@@ -69,6 +71,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     window.addEventListener('jayed-photo-changed', handlePhotoChanged);
     return () => window.removeEventListener('jayed-photo-changed', handlePhotoChanged);
   }, []);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (JPG, PNG, WebP)', 'error');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Image file size should be less than 10MB', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (result) {
+        setPhotoUrl(result);
+        try {
+          localStorage.setItem('jayed_photo_url', result);
+        } catch (err) {
+          console.warn('LocalStorage quota limit reached:', err);
+        }
+        window.dispatchEvent(new CustomEvent('jayed-photo-changed', { detail: result }));
+        showToast('Photo uploaded and updated successfully!', 'success');
+      }
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input so same file can be reselected if needed
+    e.target.value = '';
+  };
+
+  const handleResetPhoto = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setPhotoUrl(defaultJayedPhoto);
+    try {
+      localStorage.removeItem('jayed_photo_url');
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent('jayed-photo-changed', { detail: defaultJayedPhoto }));
+    showToast('Photo reset to default portrait', 'info');
+  };
 
   const handleCopyHeroCopy = () => {
     const text = `HEADLINE: ${data.headline}\nSUB-HEADLINE: ${data.subheadline}\nPRIMARY CTA: ${data.primaryCta}\nSECONDARY CTA: ${data.secondaryCta}\nTRUST BADGE: ${data.badge}`;
@@ -239,7 +287,7 @@ Email: jayedcyberfinix@gmail.com
 
               {/* Main Photo Card Container */}
               <div className="relative bg-slate-900 border-2 border-slate-700/80 group-hover:border-sky-400/60 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
-                {/* Photo Frame with 1:1 Aspect Ratio displaying the original photo */}
+                {/* Photo Frame with 1:1 Aspect Ratio displaying the photo */}
                 <div
                   className="relative aspect-square overflow-hidden cursor-pointer bg-slate-950"
                   onClick={() => setIsPhotoModalOpen(true)}
@@ -258,11 +306,40 @@ Email: jayedcyberfinix@gmail.com
                     className="w-full h-full object-cover object-top group-hover:scale-102 transition-transform duration-500"
                   />
 
+                  {/* Hidden File Input for uploading a photo */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept="image/*"
+                    className="hidden"
+                    id="hero-photo-upload-input"
+                  />
+
                   {/* Subtle Gradient Overlay for Text Legibility */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity pointer-events-none" />
 
-                  {/* Top Action Button: Fullscreen Expand */}
-                  <div className="absolute top-3.5 right-3.5 z-10">
+                  {/* Top Action Buttons: Reset, Camera Upload, Fullscreen Expand */}
+                  <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1.5">
+                    <button
+                      onClick={handleResetPhoto}
+                      className="p-2 rounded-xl bg-slate-950/80 hover:bg-amber-950/80 text-amber-400 hover:text-amber-300 border border-slate-700/80 hover:border-amber-500/50 backdrop-blur-md transition-all shadow-md group/reset"
+                      title="Reset to Original Portrait"
+                    >
+                      <RotateCcw className="w-4 h-4 group-hover/reset:rotate-[-45deg] transition-transform" />
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        fileInputRef.current?.click();
+                      }}
+                      className="p-2 rounded-xl bg-slate-950/80 hover:bg-sky-950/80 text-sky-400 hover:text-sky-300 border border-slate-700/80 hover:border-sky-500/50 backdrop-blur-md transition-all shadow-md group/cam"
+                      title="Add / Change Photo"
+                    >
+                      <Camera className="w-4 h-4 group-hover/cam:scale-110 transition-transform" />
+                    </button>
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -397,12 +474,31 @@ Email: jayedcyberfinix@gmail.com
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+            <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="font-bold text-white text-sm">MD Jayed — Official Portrait</span>
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 hover:text-white border border-sky-500/40 text-xs font-semibold transition-colors"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Upload / Add Photo</span>
+                </button>
+
+                {photoUrl !== defaultJayedPhoto && (
+                  <button
+                    onClick={handleResetPhoto}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-white border border-amber-500/40 text-xs font-semibold transition-colors"
+                    title="Reset to default photo"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Reset</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => setIsPhotoModalOpen(false)}
                   className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
@@ -418,6 +514,12 @@ Email: jayedcyberfinix@gmail.com
                 src={photoUrl}
                 alt="MD Jayed"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== defaultJayedPhoto) {
+                    target.src = defaultJayedPhoto;
+                  }
+                }}
                 className="max-h-[75vh] w-auto object-contain mx-auto"
               />
             </div>
